@@ -8,6 +8,7 @@ namespace WarShip.Model
     {
         public Coordinate Coord { get; set; }
         public bool IsShip { get; set; }
+        public bool IsShipArea { get; set; }
         public bool IsShot { get; set; }
     }
 }

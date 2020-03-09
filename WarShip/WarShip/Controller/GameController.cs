@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using WarShip.Model;
+using WarShip.View;
 
 namespace WarShip.Controller
 {
@@ -11,44 +12,6 @@ namespace WarShip.Controller
         public GameController(Board playerBoard, Board enemyBoard)
         {
             _initController = new InitController(playerBoard, enemyBoard);
-            _initController.AddShip(new Coordinate[]
-            { new Coordinate
-            {
-                X = 3,
-                Y = 3,
-            },
-            new Coordinate
-            {
-                X = 3,
-                Y = 4
-            }
-            });
-
-            _initController.AddShip(new Coordinate[]
-            { new Coordinate
-            {
-                X = 0,
-                Y = 0,
-            },
-            new Coordinate
-            {
-                X = 0,
-                Y = 1
-            }
-            });
-
-            _initController.AddShip(new Coordinate[]
-            { new Coordinate
-            {
-                X = 9,
-                Y = 9,
-            },
-            new Coordinate
-            {
-                X = 8,
-                Y = 9
-            }
-            });
             _initController.InitCells();
         }
 
@@ -56,6 +19,27 @@ namespace WarShip.Controller
         {
             board.Cells[coordinate.Y, coordinate.X].IsShot = true;
             return board.Cells[coordinate.Y, coordinate.X].IsShip;
+        }
+
+        public void PlaceShips(int xSt, int ySt)
+        {
+            _initController.PlaceShips(xSt, ySt);
+        }
+
+        public void ShipDestroyed(Ship ship, ref GameView gameView)
+        {
+            foreach (var coordinate in ship.Coordinates)
+            {
+                for (int j = coordinate.X - 1; j < coordinate.X + 2; j++)
+                {
+                    for (int k = coordinate.Y - 1; k < coordinate.Y + 2; k++)
+                    {
+                        if (j < 0 || k < 0 || j > 9 || k > 9) continue;
+                        _initController.Game.PlayerBoard.Cells[k, j].IsShot = true;
+                        gameView.PlayerBoard.DrawShoot(_initController.Game.PlayerBoard.Cells[k, j].IsShip, new Coordinate { X = j, Y = k });
+                    }
+                }
+            }
         }
     }
 }

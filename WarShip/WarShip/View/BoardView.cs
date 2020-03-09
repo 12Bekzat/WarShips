@@ -10,6 +10,18 @@ namespace WarShip.View
         private int startX;
         private int startY;
         private const int SIZE = 10;
+
+        public BoardView()
+        {
+
+        }
+
+        public BoardView(int xSt, int ySt)
+        {
+            startX = xSt;
+            startY = ySt;
+        }
+
         public void DrawBoard(int xSt, int ySt)
         {
             startX = xSt;
@@ -37,8 +49,10 @@ namespace WarShip.View
             Console.SetCursorPosition(coordinate.X + startX + 1, coordinate.Y + startY + 1);
             if(isShip)
                 Console.WriteLine(CellView.Hit);
-            else
+            else if(isShip == false)
                 Console.WriteLine(CellView.Miss);
+            Console.SetCursorPosition(Console.WindowWidth - 10, Console.WindowHeight - 1);
+                Console.WriteLine("destroy");
         }
     }
 }
